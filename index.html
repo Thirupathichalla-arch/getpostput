@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        width: 13%;
+    }
+</style>
+<body>
+    <div>
+        <h1>Add Product</h1>
+        <input type="text" id="id" placeholder="id"/>
+        <input type="text" id="name" placeholder="name"/>
+        <input type="text" id="price" placeholder="price"/>
+        <button onclick="AddProd()">Add product</button>
+    </div>
+    <div>
+        <h1>Delete Product</h1>
+        <input type="text" id="product_id" placeholder="id"/>
+        <button onclick="DeleteProduct()">Delete Product</button>
+    </div>
+    <div>
+        <h1>UpdateProduct</h1>
+        <input type="text" id="mid" placeholder="id"/>
+        <input type="text" id="mname" placeholder="Name"/>
+        <input type="text" id="mprice" placeholder="Price"/>
+        <button onclick="UpdateProduct()">Update Product</button>
+    </div>
+</body>
+</html>
+
+<script>
+
+async function AddProd(){
+    
+   // console.log("yes")
+    let data = {
+        id:document.getElementById("id").value,
+        name:document.getElementById('name').value,
+        price:document.getElementById('price').value,
+    }
+console.log(data);
+    try{
+        let res = await fetch(`http://localhost:3000/api/products`,{
+            method: 'Post',
+            body: JSON.stringify(data),
+            headers: {'content' : `application/json`},
+        });
+    
+        let d = await res.json();
+    
+        console.log("Data :",d);
+
+    }
+    catch(e){
+        console.log("error : ",e);
+    }
+}
+
+async function DeleteProduct(){
+    let id = document.getElementById("product_id").value;
+
+    let response =await fetch(`http://localhost:3000/api/products/${id}`,{
+        method : 'DELETE',
+        headers: {
+            'content': 'application/json',
+    },
+    });
+}
+async function UpdateProduct(){
+   // console.log("yes")
+    let data = {
+        id:document.getElementById("mid").value,
+        name:document.getElementById('mname').value,
+        price:document.getElementById('mprice').value,
+    }
+    //console.log(data)
+    let res = await fetch(`http://localhost:3000/api/products/${2}`,{
+        method: 'Put',
+            body: JSON.stringify(data),
+            headers: {'content' : `application/json`},
+        });
+}
+
+
+
+</script>
